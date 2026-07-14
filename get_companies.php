@@ -9,6 +9,8 @@ try {
     exit;
 }
 
+echo '<option value="">-- اختر الشركة --</option>';
+
 if (count($companies) > 0) {
     foreach ($companies as $company) {
         $id = htmlspecialchars($company['com_id']);

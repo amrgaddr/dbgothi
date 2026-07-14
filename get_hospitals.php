@@ -3,11 +3,18 @@ require_once 'db_connect.php';
 
 try {
     $stmt = $pdo->query("SELECT hospital_name FROM hospitals ORDER BY hospital_name ASC");
+
+    // $hospitals = '<option value="">اختر المستشفى</option>';
+
+
     $hospitals = $stmt->fetchAll();
 } catch (PDOException $e) {
     echo '<option value="">خطأ في تحميل المستشفيات</option>';
     exit;
 }
+
+
+echo '<option value="">-- اختر المستشفى --</option>';
 
 if (count($hospitals) > 0) {
     foreach ($hospitals as $hospital) {

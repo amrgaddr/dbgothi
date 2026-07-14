@@ -1,3 +1,16 @@
+<?php
+// Start session and check login
+session_start();
+
+// If not logged in, redirect to login page
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php');
+    exit;
+}
+
+// Now include the rest of your page
+?>
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -6,10 +19,10 @@
     <title>نموذج الفاتورة</title>
     
     <!-- Tailwind -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="./scripts/tailwind/tailwind.js"></script>
     
     <!-- HTMX -->
-    <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+    <script src="./htmx/htmx.js"></script>
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -46,30 +59,7 @@
         >
             <!-- Company Dropdown (value = com_name, data-id = com_id) -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="relative">
-                    <label for="com_id" class="block text-sm font-medium text-slate-700 mb-1 text-right">
-                        الشركة <span class="text-red-500">*</span>
-                    </label>
-                    <div class="relative">
-                        <select 
-                            id="com_id" 
-                            name="com_name" 
-                            required
-                            hx-get="get_companies.php"
-                            hx-trigger="load"
-                            hx-swap="innerHTML"
-                            hx-target="#com_id"
-                            class="w-full rounded-lg border-slate-300 border bg-white py-2.5 px-3 pr-10 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition text-right"
-                        >
-                            <option value="">جاري تحميل الشركات...</option>
-                        </select>
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-2 pointer-events-none text-slate-400">
-                            <i class="fas fa-building"></i>
-                        </span>
-                    </div>
-                    <!-- Hidden field to store com_id -->
-                    <input type="hidden" id="com_id_hidden" name="com_id" value="">
-                </div>
+                
 
                 <!-- Hospital Dropdown (value = hospital_name) -->
                 <div class="relative">
@@ -94,9 +84,11 @@
                         </span>
                     </div>
                 </div>
-            </div>
 
-            <!-- Invoice Section -->
+
+
+
+                            <!-- Invoice Section
             <div>
                 <label for="invoice_section" class="block text-sm font-medium text-slate-700 mb-1 text-right">
                     القسم <span class="text-red-500">*</span>
@@ -109,7 +101,68 @@
                     placeholder="مثال: قسم الطوارئ"
                     class="w-full rounded-lg border-slate-300 border bg-white py-2.5 px-3 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition text-right"
                 >
+            </div> -->
+
+
+
+
+
+
+
+                        <!-- Invoice Type Dropdown -->
+            <div>
+                <label for="invoice_section" class="block text-sm font-medium text-slate-700 mb-1 text-right">
+                    القسم  <span class="text-red-500">*</span>
+                </label>
+                <select 
+                    id="invoice_section" 
+                    name="invoice_section" 
+                    required
+                    class="w-full rounded-lg border-slate-300 border bg-white py-2.5 px-3 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition text-right"
+                >
+                    <option value="">-- اختر النوع --</option>
+                    <option value="الأدوية">الأدوية</option>
+                    <option value="المستلزمات">المستلزمات</option>
+                    <option value="الصيانة الطبية">الصيانة الطبية</option>
+                    <option value="الصيانة غير الطبية">الصيانة غير الطبية</option>
+                    <option value="المطبوعات والاحبار">المطبوعات والاحبار</option>
+                    <option value="النظافة">النظافة</option>
+                    <option value="تغذية عاملين">تغذية عاملين</option>
+                    <option value="تغذية مرضى">تغذية مرضى</option>
+                </select>
             </div>
+
+            </div>
+
+
+
+
+            <div class="relative">
+                    <label for="com_id" class="block text-sm font-medium text-slate-700 mb-1 text-right">
+                        الشركة <span class="text-red-500">*</span>
+                    </label>
+                    <div class="relative">
+                        <select 
+                            id="com_id" 
+                            name="com_name" 
+                            required
+                            hx-get="get_companies.php"
+                            hx-trigger="load"
+                            hx-swap="innerHTML"
+                            hx-target="#com_id"
+                            class="w-full rounded-lg border-slate-300 border bg-white py-2.5 px-3 pr-10 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition text-right"
+                        >
+                            <option value="">جاري تحميل الشركات...</option>
+                        </select>
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-2 pointer-events-none text-slate-400">
+                            <i class="fas fa-building"></i>
+                        </span>
+                    </div>
+                    <!-- Hidden field to store com_id -->
+                    <input type="hidden" id="com_id_hidden" name="com_id" value="">
+                </div>
+
+
 
             <!-- Invoice Date (simple input type="date") and Invoice Number -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
